@@ -1311,10 +1311,11 @@
 
         // Test Apps Script Connection
         async function testAppsScriptConnection() {
+            const statusEl = document.getElementById('connectionStatus');
+            const appsScriptStatusEl = document.getElementById('appsScriptStatus');
+            
             try {
-                const statusEl = document.getElementById('connectionStatus');
-                const appsScriptStatusEl = document.getElementById('appsScriptStatus');
-                
+                // Update UI to show testing state
                 statusEl.className = 'connection-status status-connecting';
                 statusEl.textContent = '🟡 جاري اختبار الاتصال...';
                 
@@ -1325,47 +1326,262 @@
                 
                 // Check if Web App URL is provided
                 if (!appsScriptConfig.webAppUrl) {
-                    throw new Error('رابط Apps Script Web App غير محدد');
+                    throw new Error('رابط Apps Script Web App غير محدد. يرجى إدخال الرابط أولاً.');
                 }
                 
-                // Test connection by trying to read from Students sheet
-                const testData = await readFromAppsScript(SHEET_NAMES.STUDENTS);
+                // Validate URL format
+                if (!appsScriptConfig.webAppUrl.includes('script.google.com/macros/s/')) {
+                    throw new Error('رابط Web App غير صحيح. يجب أن يبدأ بـ https://script.google.com/macros/s/');
+                }
                 
-                // Success!
-                appsScriptConfig.isConnected = true;
-                updateConnectionStatus(true);
+                console.log('🔗 اختبار الاتصال مع:', appsScriptConfig.webAppUrl);
                 
-                showToast('✅ تم الاتصال بنجاح مع Apps Script Web App', 'success');
-                
-                console.log('✅ اختبار الاتصال نجح:');
-                console.log('🔗 رابط Web App:', appsScriptConfig.webAppUrl);
-                console.log('📊 البيانات المستلمة:', testData.length, 'صف');
+                // Test connection with detailed error handling
+                try {
+                    const response = await fetch(appsScriptConfig.webAppUrl + '?action=test', {
+                        method: 'GET',
+                        mode: 'cors',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    
+                    if (!response.ok) {
+                        if (response.status === 404) {
+                            throw new Error('WEBAPP_NOT_FOUND');
+                        } else if (response.status === 403) {
+                            throw new Error('ACCESS_DENIED');
+                        } else if (response.status === 500) {
+                            throw new Error('SERVER_ERROR');
+                        } else {
+                            throw new Error(`HTTP_ERROR_${response.status}`);
+                        }
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // Success!
+                    appsScriptConfig.isConnected = true;
+                    
+                    // Update status elements
+                    statusEl.className = 'connection-status status-connected';
+                    statusEl.textContent = '🟢 متصل بنجاح';
+                    
+                    if (appsScriptStatusEl) {
+                        appsScriptStatusEl.querySelector('.connection-status').className = 'connection-status status-connected';
+                        appsScriptStatusEl.querySelector('.connection-status').textContent = 'متصل';
+                    }
+                    
+                    const driveStatusEl = document.getElementById('driveStatus');
+                    if (driveStatusEl && appsScriptConfig.driveFolderId) {
+                        driveStatusEl.querySelector('.connection-status').className = 'connection-status status-connected';
+                        driveStatusEl.querySelector('.connection-status').textContent = 'متصل';
+                    }
+                    
+                    showToast('✅ تم الاتصال بنجاح مع Apps Script Web App', 'success');
+                    
+                    console.log('✅ اختبار الاتصال نجح:');
+                    console.log('🔗 رابط Web App:', appsScriptConfig.webAppUrl);
+                    console.log('💾 معرف مجلد Drive:', appsScriptConfig.driveFolderId);
+                    
+                    // Show success modal with next steps
+                    const modal = createModal('🎉 تم الاتصال بنجاح!', `
+                        <div class="text-center space-y-6">
+                            <div class="text-6xl mb-4">✅</div>
+                            <h3 class="text-2xl font-bold text-green-800 mb-4">تم ربط النظام بنجاح مع Google Apps Script!</h3>
+                            
+                            <div class="bg-green-50 border-2 border-green-300 rounded-lg p-4 text-right">
+                                <h4 class="font-bold text-green-800 mb-3">✅ تم التحقق من:</h4>
+                                <ul class="text-sm text-green-700 space-y-2">
+                                    <li>• ✅ رابط Apps Script Web App يعمل بشكل صحيح</li>
+                                    <li>• ✅ الوصول إلى Google Sheets متاح</li>
+                                    <li>• ✅ معرف مجلد Google Drive محفوظ</li>
+                                    <li>• ✅ النظام جاهز للاستخدام</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 text-right">
+                                <h4 class="font-bold text-blue-800 mb-3">🚀 الخطوات التالية:</h4>
+                                <ul class="text-sm text-blue-700 space-y-2">
+                                    <li>• يمكنك الآن تسجيل الدخول كمدير أو خادم أو دارس</li>
+                                    <li>• ستتم مزامنة جميع البيانات مع Google Sheets تلقائياً</li>
+                                    <li>• سيتم حفظ الملفات والصور في Google Drive</li>
+                                    <li>• النظام يعمل بدون الحاجة لإعداد OAuth معقد</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="flex justify-center gap-3">
+                                <button onclick="closeModal(); showSection('login');" class="btn-primary">
+                                    🔑 تسجيل الدخول
+                                </button>
+                                <button onclick="closeModal()" class="btn-secondary">
+                                    إغلاق
+                                </button>
+                            </div>
+                        </div>
+                    `);
+                    
+                } catch (fetchError) {
+                    console.error('Fetch Error Details:', fetchError);
+                    
+                    // Handle specific error types
+                    if (fetchError.message === 'Failed to fetch') {
+                        throw new Error('CORS_OR_NETWORK_ERROR');
+                    } else if (fetchError.message.includes('WEBAPP_NOT_FOUND')) {
+                        throw new Error('WEBAPP_NOT_FOUND');
+                    } else if (fetchError.message.includes('ACCESS_DENIED')) {
+                        throw new Error('ACCESS_DENIED');
+                    } else if (fetchError.message.includes('SERVER_ERROR')) {
+                        throw new Error('SERVER_ERROR');
+                    } else {
+                        throw fetchError;
+                    }
+                }
                 
             } catch (error) {
                 console.error('❌ فشل اختبار الاتصال:', error);
                 appsScriptConfig.isConnected = false;
-                updateConnectionStatus(false);
                 
+                // Update status elements
+                statusEl.className = 'connection-status status-disconnected';
+                statusEl.textContent = '🔴 فشل الاتصال';
+                
+                if (appsScriptStatusEl) {
+                    appsScriptStatusEl.querySelector('.connection-status').className = 'connection-status status-disconnected';
+                    appsScriptStatusEl.querySelector('.connection-status').textContent = 'فشل الاتصال';
+                }
+                
+                // Determine error type and message
                 let errorMessage = 'فشل في الاتصال مع Apps Script Web App';
-                if (error.message.includes('404')) {
-                    errorMessage = 'رابط Web App غير صحيح أو غير موجود';
-                } else if (error.message.includes('403')) {
-                    errorMessage = 'ليس لديك صلاحية للوصول إلى Web App';
+                let troubleshootingSteps = [];
+                let detailedInstructions = '';
+                
+                if (error.message === 'CORS_OR_NETWORK_ERROR') {
+                    errorMessage = 'مشكلة في الشبكة أو إعدادات CORS';
+                    troubleshootingSteps = [
+                        '• تأكد من أن Web App منشور بإعداد "Anyone" للوصول',
+                        '• تحقق من اتصالك بالإنترنت',
+                        '• جرب إعادة نشر Web App مع الإعدادات الصحيحة',
+                        '• تأكد من أن Apps Script يحتوي على دالة doGet() أو doPost()'
+                    ];
+                    detailedInstructions = `
+                        <div class="bg-orange-50 border-2 border-orange-300 rounded-lg p-4 text-right">
+                            <h4 class="font-bold text-orange-800 mb-3">🔧 خطوات إصلاح مشكلة CORS:</h4>
+                            <ol class="text-sm text-orange-700 space-y-2 list-decimal list-inside">
+                                <li>افتح Apps Script من <a href="https://script.google.com" target="_blank" class="underline">script.google.com</a></li>
+                                <li>تأكد من وجود الكود المحمل في المشروع</li>
+                                <li>اضغط <strong>Deploy → Manage Deployments</strong></li>
+                                <li>اضغط على أيقونة التعديل ✏️ بجانب النشر الحالي</li>
+                                <li>تأكد من الإعدادات:
+                                    <ul class="list-disc list-inside mr-4 mt-1">
+                                        <li><strong>Execute as:</strong> Me</li>
+                                        <li><strong>Who has access:</strong> Anyone</li>
+                                    </ul>
+                                </li>
+                                <li>اضغط <strong>Deploy</strong> للحصول على رابط جديد</li>
+                                <li>انسخ الرابط الجديد وأدخله هنا</li>
+                            </ol>
+                        </div>
+                    `;
+                } else if (error.message === 'WEBAPP_NOT_FOUND') {
+                    errorMessage = 'رابط Web App غير صحيح أو غير موجود (404)';
+                    troubleshootingSteps = [
+                        '• تحقق من صحة رابط Web App المدخل',
+                        '• تأكد من نشر Web App من Apps Script',
+                        '• انسخ الرابط مرة أخرى من صفحة النشر',
+                        '• تأكد من عدم وجود مسافات إضافية في الرابط'
+                    ];
+                } else if (error.message === 'ACCESS_DENIED') {
+                    errorMessage = 'ليس لديك صلاحية للوصول إلى Web App (403)';
+                    troubleshootingSteps = [
+                        '• تأكد من نشر Web App بإعداد "Anyone" للوصول',
+                        '• تحقق من إعدادات المشاركة في Google Sheets',
+                        '• جرب إعادة نشر Web App مع الإعدادات الصحيحة',
+                        '• تأكد من تسجيل الدخول بنفس حساب Google'
+                    ];
+                } else if (error.message === 'SERVER_ERROR') {
+                    errorMessage = 'خطأ في خادم Apps Script (500)';
+                    troubleshootingSteps = [
+                        '• تحقق من وجود أخطاء في كود Apps Script',
+                        '• تأكد من أن معرف مجلد Google Drive صحيح',
+                        '• تحقق من صلاحيات الوصول للمجلد',
+                        '• جرب إعادة نشر Web App'
+                    ];
+                } else if (error.message.includes('رابط Web App غير محدد')) {
+                    errorMessage = 'يرجى إدخال رابط Apps Script Web App أولاً';
+                    troubleshootingSteps = [
+                        '• أدخل رابط Web App في الحقل أعلاه',
+                        '• تأكد من نشر Apps Script كـ Web App',
+                        '• انسخ الرابط من صفحة النشر في Apps Script',
+                        '• اضغط "حفظ الإعدادات" قبل اختبار الاتصال'
+                    ];
+                } else if (error.message.includes('رابط Web App غير صحيح')) {
+                    errorMessage = 'تنسيق رابط Web App غير صحيح';
+                    troubleshootingSteps = [
+                        '• الرابط يجب أن يبدأ بـ: https://script.google.com/macros/s/',
+                        '• انسخ الرابط كاملاً من صفحة النشر في Apps Script',
+                        '• تأكد من عدم وجود مسافات أو أحرف إضافية',
+                        '• جرب إعادة نشر Web App والحصول على رابط جديد'
+                    ];
                 }
                 
                 showToast('❌ ' + errorMessage, 'error');
+                
+                // Show error modal with troubleshooting
+                const modal = createModal('❌ فشل في الاتصال', `
+                    <div class="text-center space-y-6">
+                        <div class="text-6xl mb-4">❌</div>
+                        <h3 class="text-xl font-bold text-red-800 mb-4">فشل في الاتصال مع Apps Script Web App</h3>
+                        
+                        <div class="bg-red-50 border-2 border-red-300 rounded-lg p-4 text-right">
+                            <h4 class="font-bold text-red-800 mb-3">🔍 الخطأ:</h4>
+                            <p class="text-sm text-red-700">${errorMessage}</p>
+                            <p class="text-xs text-red-600 mt-2">التفاصيل التقنية: ${error.message}</p>
+                        </div>
+                        
+                        ${detailedInstructions}
+                        
+                        <div class="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4 text-right">
+                            <h4 class="font-bold text-yellow-800 mb-3">🛠️ حلول مقترحة:</h4>
+                            <ul class="text-sm text-yellow-700 space-y-2">
+                                ${troubleshootingSteps.map(step => `<li>${step}</li>`).join('')}
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 text-right">
+                            <h4 class="font-bold text-blue-800 mb-3">📋 معلومات الإعداد الحالي:</h4>
+                            <div class="text-sm text-blue-700 space-y-1">
+                                <p><strong>رابط Web App:</strong> ${appsScriptConfig.webAppUrl || 'غير محدد'}</p>
+                                <p><strong>معرف مجلد Drive:</strong> ${appsScriptConfig.driveFolderId || 'غير محدد'}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex justify-center gap-3">
+                            <button onclick="closeModal(); showDetailedTroubleshooting();" class="btn-primary">
+                                🔧 دليل الإصلاح المفصل
+                            </button>
+                            <button onclick="closeModal(); testAppsScriptConnection();" class="btn-secondary">
+                                🔄 إعادة المحاولة
+                            </button>
+                            <button onclick="closeModal()" class="btn-secondary">
+                                إغلاق
+                            </button>
+                        </div>
+                    </div>
+                `);
             }
         }
 
         // Download Apps Script Code
         function downloadAppsScriptCode() {
-            const appsScriptCode = `// Apps Script Code for AlHabib Center
+            const appsScriptCode = `// Apps Script Code for AlHabib Center Management System
 // نسخ هذا الكود في مشروع Apps Script الخاص بك
+// تأكد من إدخال معرف مجلد Google Drive في المتغير FOLDER_ID أدناه
 
-// إعداد معرف مجلد Google Drive
-const FOLDER_ID = "أدخل_معرف_المجلد_هنا";
+// إعداد معرف مجلد Google Drive - أدخل المعرف هنا
+const FOLDER_ID = "${appsScriptConfig.driveFolderId || 'أدخل_معرف_المجلد_هنا'}";
 
-// أسماء الأوراق
+// أسماء الأوراق في Google Sheets
 const SHEET_NAMES = {
   STUDENTS: 'Students',
   TEACHERS: 'Teachers',
@@ -1375,44 +1591,67 @@ const SHEET_NAMES = {
   HYMNS_GRADES: 'Hymns_Grades'
 };
 
-// دالة GET - قراءة البيانات
+// دالة GET - للتعامل مع طلبات القراءة
 function doGet(e) {
   try {
+    // إضافة CORS headers
+    const output = ContentService.createTextOutput();
+    output.setMimeType(ContentService.MimeType.JSON);
+    
     const action = e.parameter.action || 'read';
     const sheetName = e.parameter.sheet || SHEET_NAMES.STUDENTS;
     const range = e.parameter.range || '';
     
+    // اختبار الاتصال
+    if (action === 'test') {
+      return output.setContent(JSON.stringify({
+        status: 'success',
+        message: 'Apps Script Web App is working correctly',
+        timestamp: new Date().toISOString(),
+        folderConfigured: FOLDER_ID !== 'أدخل_معرف_المجلد_هنا'
+      }));
+    }
+    
+    // قراءة البيانات من الورقة
     if (action === 'read') {
       const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
       if (!sheet) {
-        return ContentService.createTextOutput(JSON.stringify({
-          error: 'Sheet not found: ' + sheetName
-        })).setMimeType(ContentService.MimeType.JSON);
+        return output.setContent(JSON.stringify({
+          error: 'Sheet not found: ' + sheetName,
+          availableSheets: SpreadsheetApp.getActiveSpreadsheet().getSheets().map(s => s.getName())
+        }));
       }
       
       const data = sheet.getDataRange().getValues();
-      return ContentService.createTextOutput(JSON.stringify({
+      return output.setContent(JSON.stringify({
         values: data,
-        status: 'success'
-      })).setMimeType(ContentService.MimeType.JSON);
+        status: 'success',
+        sheetName: sheetName,
+        rowCount: data.length
+      }));
     }
     
-    return ContentService.createTextOutput(JSON.stringify({
-      error: 'Invalid action'
-    })).setMimeType(ContentService.MimeType.JSON);
+    return output.setContent(JSON.stringify({
+      error: 'Invalid action: ' + action,
+      supportedActions: ['test', 'read']
+    }));
     
   } catch (error) {
     return ContentService.createTextOutput(JSON.stringify({
-      error: error.toString()
+      error: error.toString(),
+      stack: error.stack
     })).setMimeType(ContentService.MimeType.JSON);
   }
 }
 
-// دالة POST - كتابة البيانات ورفع الملفات
+// دالة POST - للتعامل مع طلبات الكتابة ورفع الملفات
 function doPost(e) {
   try {
+    const output = ContentService.createTextOutput();
+    output.setMimeType(ContentService.MimeType.JSON);
+    
     // التحقق من نوع المحتوى
-    if (e.postData.type === 'application/json') {
+    if (e.postData && e.postData.type === 'application/json') {
       // بيانات JSON
       const params = JSON.parse(e.postData.contents);
       const action = params.action;
@@ -1433,18 +1672,21 @@ function doPost(e) {
       }
     }
     
-    return ContentService.createTextOutput(JSON.stringify({
-      error: 'Invalid request'
-    })).setMimeType(ContentService.MimeType.JSON);
+    return output.setContent(JSON.stringify({
+      error: 'Invalid request type',
+      receivedParameters: Object.keys(e.parameter || {}),
+      postDataType: e.postData ? e.postData.type : 'none'
+    }));
     
   } catch (error) {
     return ContentService.createTextOutput(JSON.stringify({
-      error: error.toString()
+      error: error.toString(),
+      stack: error.stack
     })).setMimeType(ContentService.MimeType.JSON);
   }
 }
 
-// إضافة بيانات جديدة
+// إضافة بيانات جديدة إلى الورقة
 function appendToSheet(sheetName, values) {
   try {
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
@@ -1464,17 +1706,19 @@ function appendToSheet(sheetName, values) {
     
     return ContentService.createTextOutput(JSON.stringify({
       status: 'success',
-      message: 'Data appended successfully'
+      message: 'Data appended successfully',
+      rowsAdded: Array.isArray(values[0]) ? values.length : 1
     })).setMimeType(ContentService.MimeType.JSON);
     
   } catch (error) {
     return ContentService.createTextOutput(JSON.stringify({
-      error: error.toString()
+      error: error.toString(),
+      sheetName: sheetName
     })).setMimeType(ContentService.MimeType.JSON);
   }
 }
 
-// تحديث البيانات
+// تحديث البيانات في الورقة
 function updateSheet(sheetName, values) {
   try {
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
@@ -1493,12 +1737,14 @@ function updateSheet(sheetName, values) {
     
     return ContentService.createTextOutput(JSON.stringify({
       status: 'success',
-      message: 'Sheet updated successfully'
+      message: 'Sheet updated successfully',
+      rowsUpdated: values.length
     })).setMimeType(ContentService.MimeType.JSON);
     
   } catch (error) {
     return ContentService.createTextOutput(JSON.stringify({
-      error: error.toString()
+      error: error.toString(),
+      sheetName: sheetName
     })).setMimeType(ContentService.MimeType.JSON);
   }
 }
@@ -1506,16 +1752,16 @@ function updateSheet(sheetName, values) {
 // رفع الملفات إلى Google Drive
 function uploadFile(e) {
   try {
-    if (!FOLDER_ID) {
-      throw new Error('FOLDER_ID not configured');
+    if (!FOLDER_ID || FOLDER_ID === 'أدخل_معرف_المجلد_هنا') {
+      throw new Error('FOLDER_ID not configured. Please set the Google Drive folder ID in the script.');
     }
     
     const folder = DriveApp.getFolderById(FOLDER_ID);
-    const fileName = e.parameter.fileName || 'uploaded_file';
+    const fileName = e.parameter.fileName || 'uploaded_file_' + new Date().getTime();
     const fileBlob = e.parameter.file;
     
     if (!fileBlob) {
-      throw new Error('No file provided');
+      throw new Error('No file provided in the request');
     }
     
     const file = folder.createFile(fileBlob);
@@ -1529,12 +1775,14 @@ function uploadFile(e) {
       fileId: file.getId(),
       fileName: file.getName(),
       fileUrl: file.getUrl(),
-      downloadUrl: 'https://drive.google.com/uc?id=' + file.getId()
+      downloadUrl: 'https://drive.google.com/uc?id=' + file.getId(),
+      viewUrl: 'https://drive.google.com/file/d/' + file.getId() + '/view'
     })).setMimeType(ContentService.MimeType.JSON);
     
   } catch (error) {
     return ContentService.createTextOutput(JSON.stringify({
-      error: error.toString()
+      error: error.toString(),
+      folderConfigured: FOLDER_ID !== 'أدخل_معرف_المجلد_هنا'
     })).setMimeType(ContentService.MimeType.JSON);
   }
 }
@@ -1560,9 +1808,61 @@ function createSheetsIfNotExist() {
           'كود الخادم', 'اسم الخادم', 'الهاتف', 'التخصص', 'أداري',
           'كلمة المرور', 'الفصل', 'تاريخ الإنشاء'
         ]]);
+      } else if (sheetName === SHEET_NAMES.ATTENDANCE) {
+        sheet.getRange(1, 1, 1, 20).setValues([[
+          'كود الدارس', 'اسم الدارس', 'الفصل', 'الأسبوع 1', 'الأسبوع 2', 'الأسبوع 3',
+          'الأسبوع 4', 'الأسبوع 5', 'الأسبوع 6', 'الأسبوع 7', 'الأسبوع 8',
+          'الأسبوع 9', 'الأسبوع 10', 'الأسبوع 11', 'الأسبوع 12', 'الأسبوع 13',
+          'الأسبوع 14', 'الأسبوع 15', 'إجمالي الحضور', 'نسبة الحضور'
+        ]]);
+      } else if (sheetName === SHEET_NAMES.LITURGY_GRADES) {
+        sheet.getRange(1, 1, 1, 10).setValues([[
+          'كود الدارس', 'اسم الدارس', 'الفصل', 'الامتحان الأول', 'الامتحان الثاني',
+          'الامتحان الثالث', 'الامتحان النهائي', 'درجة الأنشطة', 'المجموع', 'التقدير'
+        ]]);
+      } else if (sheetName === SHEET_NAMES.COPTIC_GRADES) {
+        sheet.getRange(1, 1, 1, 10).setValues([[
+          'كود الدارس', 'اسم الدارس', 'الفصل', 'الامتحان الأول', 'الامتحان الثاني',
+          'الامتحان الثالث', 'الامتحان النهائي', 'درجة الأنشطة', 'المجموع', 'التقدير'
+        ]]);
+      } else if (sheetName === SHEET_NAMES.HYMNS_GRADES) {
+        sheet.getRange(1, 1, 1, 18).setValues([[
+          'كود الدارس', 'اسم الدارس', 'الفصل', 'الأسبوع 1', 'الأسبوع 2', 'الأسبوع 3',
+          'الأسبوع 4', 'الأسبوع 5', 'الأسبوع 6', 'الأسبوع 7', 'الأسبوع 8',
+          'الأسبوع 9', 'الأسبوع 10', 'الأسبوع 11', 'الأسبوع 12', 'الأسبوع 13',
+          'الأسبوع 14', 'الأسبوع 15'
+        ]]);
       }
     }
   });
+  
+  return 'All sheets created successfully';
+}
+
+// دالة اختبار يمكن تشغيلها يدوياً
+function testScript() {
+  Logger.log('Testing Apps Script...');
+  
+  try {
+    // اختبار إنشاء الأوراق
+    const result = createSheetsIfNotExist();
+    Logger.log('Sheets creation result: ' + result);
+    
+    // اختبار الوصول لمجلد Drive
+    if (FOLDER_ID && FOLDER_ID !== 'أدخل_معرف_المجلد_هنا') {
+      const folder = DriveApp.getFolderById(FOLDER_ID);
+      Logger.log('Drive folder accessible: ' + folder.getName());
+    } else {
+      Logger.log('Drive folder ID not configured');
+    }
+    
+    Logger.log('Test completed successfully');
+    return 'Test completed successfully';
+    
+  } catch (error) {
+    Logger.log('Test failed: ' + error.toString());
+    return 'Test failed: ' + error.toString();
+  }
 }`;
 
             const blob = new Blob([appsScriptCode], { type: 'text/javascript;charset=utf-8;' });
@@ -1633,6 +1933,143 @@ function createSheetsIfNotExist() {
                     <div class="flex justify-end">
                         <button onclick="closeModal()" class="btn-primary">
                             فهمت
+                        </button>
+                    </div>
+                </div>
+            `);
+        }
+
+        // Show Detailed Troubleshooting Guide
+        function showDetailedTroubleshooting() {
+            const modal = createModal('🔧 دليل الإصلاح المفصل', `
+                <div class="space-y-6 max-h-[70vh] overflow-y-auto">
+                    <div class="bg-red-50 border-2 border-red-300 rounded-lg p-4">
+                        <h3 class="font-bold text-red-800 mb-3">🚨 المشكلة الحالية: Failed to fetch</h3>
+                        <p class="text-sm text-red-700 mb-3">
+                            هذا الخطأ يحدث عادة بسبب إعدادات CORS أو مشكلة في نشر Web App. إليك الحلول المفصلة:
+                        </p>
+                    </div>
+
+                    <div class="bg-orange-50 border-2 border-orange-300 rounded-lg p-4">
+                        <h3 class="font-bold text-orange-800 mb-3">🔧 الحل الأول: إعادة نشر Web App</h3>
+                        <ol class="text-sm text-orange-700 space-y-3 list-decimal list-inside">
+                            <li><strong>افتح Apps Script:</strong>
+                                <ul class="list-disc list-inside mr-4 mt-1 space-y-1">
+                                    <li>اذهب إلى <a href="https://script.google.com" target="_blank" class="underline text-blue-600">script.google.com</a></li>
+                                    <li>ابحث عن مشروع "AlHabibCenterWebApp"</li>
+                                    <li>افتح المشروع</li>
+                                </ul>
+                            </li>
+                            <li><strong>تحقق من الكود:</strong>
+                                <ul class="list-disc list-inside mr-4 mt-1 space-y-1">
+                                    <li>تأكد من وجود دالة <code>doGet()</code> في الكود</li>
+                                    <li>تأكد من وجود دالة <code>doPost()</code> في الكود</li>
+                                    <li>تأكد من إدخال معرف مجلد Drive في <code>FOLDER_ID</code></li>
+                                </ul>
+                            </li>
+                            <li><strong>إعادة النشر:</strong>
+                                <ul class="list-disc list-inside mr-4 mt-1 space-y-1">
+                                    <li>اضغط <strong>Deploy → Manage Deployments</strong></li>
+                                    <li>اضغط على أيقونة التعديل ✏️ بجانب النشر الحالي</li>
+                                    <li>غير الوصف إلى شيء جديد (مثل: "AlHabib Center API v2")</li>
+                                    <li>تأكد من الإعدادات:
+                                        <ul class="list-disc list-inside mr-4 mt-1">
+                                            <li><strong>Execute as:</strong> Me</li>
+                                            <li><strong>Who has access:</strong> Anyone</li>
+                                        </ul>
+                                    </li>
+                                    <li>اضغط <strong>Deploy</strong></li>
+                                    <li>انسخ الرابط الجديد</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4">
+                        <h3 class="font-bold text-blue-800 mb-3">🔧 الحل الثاني: إنشاء مشروع جديد</h3>
+                        <ol class="text-sm text-blue-700 space-y-2 list-decimal list-inside">
+                            <li>افتح Google Sheets جديد</li>
+                            <li>اختر <strong>Extensions → Apps Script</strong></li>
+                            <li>أنشئ مشروع جديد باسم "AlHabibCenter2024"</li>
+                            <li>احذف الكود الافتراضي</li>
+                            <li>الصق الكود المحمل (اضغط "تحميل كود Apps Script" أعلاه)</li>
+                            <li>أدخل معرف مجلد Google Drive</li>
+                            <li>احفظ المشروع</li>
+                            <li>انشر كـ Web App جديد</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-green-50 border-2 border-green-300 rounded-lg p-4">
+                        <h3 class="font-bold text-green-800 mb-3">🔧 الحل الثالث: فحص الصلاحيات</h3>
+                        <ol class="text-sm text-green-700 space-y-2 list-decimal list-inside">
+                            <li><strong>صلاحيات Google Sheets:</strong>
+                                <ul class="list-disc list-inside mr-4 mt-1">
+                                    <li>افتح Google Sheets المستخدم</li>
+                                    <li>اضغط <strong>Share</strong></li>
+                                    <li>تأكد من أن الجدول "Anyone with the link can view"</li>
+                                </ul>
+                            </li>
+                            <li><strong>صلاحيات Google Drive:</strong>
+                                <ul class="list-disc list-inside mr-4 mt-1">
+                                    <li>افتح مجلد Google Drive</li>
+                                    <li>اضغط بالزر الأيمن → Share</li>
+                                    <li>تأكد من أن المجلد "Anyone with the link can view"</li>
+                                </ul>
+                            </li>
+                            <li><strong>صلاحيات Apps Script:</strong>
+                                <ul class="list-disc list-inside mr-4 mt-1">
+                                    <li>في Apps Script، اضغط على أيقونة القفل 🔒</li>
+                                    <li>راجع الصلاحيات المطلوبة</li>
+                                    <li>تأكد من الموافقة على جميع الصلاحيات</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-purple-50 border-2 border-purple-300 rounded-lg p-4">
+                        <h3 class="font-bold text-purple-800 mb-3">🔧 الحل الرابع: اختبار الرابط يدوياً</h3>
+                        <ol class="text-sm text-purple-700 space-y-2 list-decimal list-inside">
+                            <li>انسخ رابط Web App الحالي</li>
+                            <li>افتح نافذة جديدة في المتصفح</li>
+                            <li>الصق الرابط واضغط Enter</li>
+                            <li>يجب أن ترى استجابة JSON أو رسالة خطأ واضحة</li>
+                            <li>إذا ظهرت صفحة تسجيل دخول Google، سجل الدخول</li>
+                            <li>إذا ظهرت رسالة "Authorization required"، وافق على الصلاحيات</li>
+                        </ol>
+                    </div>
+
+                    <div class="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4">
+                        <h3 class="font-bold text-yellow-800 mb-3">⚠️ نصائح إضافية</h3>
+                        <ul class="text-sm text-yellow-700 space-y-1 list-disc list-inside">
+                            <li>تأكد من استخدام نفس حساب Google لكل شيء</li>
+                            <li>امسح cache المتصفح وأعد المحاولة</li>
+                            <li>جرب من متصفح مختلف أو وضع التصفح الخفي</li>
+                            <li>تأكد من أن اتصال الإنترنت مستقر</li>
+                            <li>انتظر 5-10 دقائق بعد إعادة النشر قبل الاختبار</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-gray-50 border-2 border-gray-300 rounded-lg p-4">
+                        <h3 class="font-bold text-gray-800 mb-3">📞 إذا استمرت المشكلة</h3>
+                        <p class="text-sm text-gray-700 mb-2">
+                            إذا جربت جميع الحلول أعلاه ولم تنجح، يمكنك:
+                        </p>
+                        <ul class="text-sm text-gray-700 space-y-1 list-disc list-inside">
+                            <li>تجربة النظام بدون Apps Script (سيعمل محلياً فقط)</li>
+                            <li>استخدام Google Apps Script من حساب Google مختلف</li>
+                            <li>الانتظار 24 ساعة وإعادة المحاولة (أحياناً تكون مشكلة مؤقتة)</li>
+                        </ul>
+                    </div>
+
+                    <div class="flex justify-center gap-3 mt-6">
+                        <button onclick="closeModal(); downloadAppsScriptCode();" class="btn-primary">
+                            📥 تحميل الكود مرة أخرى
+                        </button>
+                        <button onclick="closeModal(); testAppsScriptConnection();" class="btn-secondary">
+                            🔄 اختبار الاتصال
+                        </button>
+                        <button onclick="closeModal()" class="btn-secondary">
+                            إغلاق
                         </button>
                     </div>
                 </div>
@@ -2886,5 +3323,5 @@ ST001,مثال للدارس,ذكر,2010-01-01,الصف الأول الأبتدا
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', initializeSystem);
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99f7b6af43cb2a48',t:'MTc2MzMwMzcxMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99f8744c03432a48',t:'MTc2MzMxMTQ3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
