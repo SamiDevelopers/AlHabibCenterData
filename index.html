@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>نظام إدارة مركز الحبيب - Google Sheets</title>
   <script src="/_sdk/element_sdk.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script><!-- Apps Script Web App - لا حاجة لمكتبات خارجية -->
+  <script src="https://cdn.tailwindcss.com"></script><!-- Google APIs -->
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="https://accounts.google.com/gsi/client"></script>
   <style>
         body {
             box-sizing: border-box;
@@ -315,6 +317,249 @@
        </div>
       </div>
      </div>
+    </div><!-- Project Overview -->
+    <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-8 card-shadow mb-8">
+     <div class="text-center mb-8">
+      <div class="text-6xl mb-4">
+       🏛️
+      </div>
+      <h2 class="text-3xl font-bold text-blue-900 mb-4">نظام إدارة مركز الحبيب للألحان والدراسات القبطية</h2>
+      <p class="text-lg text-blue-800 leading-relaxed max-w-4xl mx-auto">نظام إداري متكامل مصمم خصيصاً لإدارة مراكز تعليم الألحان والطقوس القبطية، مدعوم بتقنيات Google Workspace الحديثة</p>
+     </div>
+    </div><!-- Technical Architecture -->
+    <div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-8 card-shadow mb-8">
+     <div class="flex items-start gap-4">
+      <div class="text-5xl">
+       🚀
+      </div>
+      <div class="flex-1">
+       <h3 class="text-2xl font-bold text-green-900 mb-4">البنية التقنية والتكامل</h3>
+       <div class="grid md:grid-cols-2 gap-6">
+        <div>
+         <h4 class="font-bold text-green-800 mb-3">📊 Google Sheets Integration</h4>
+         <ul class="text-sm text-green-700 space-y-2">
+          <li>• <strong>Students Sheet:</strong> بيانات الدارسين الكاملة (15 حقل)</li>
+          <li>• <strong>Teachers Sheet:</strong> بيانات الخدام والتخصصات</li>
+          <li>• <strong>Attendance Sheet:</strong> حضور وغياب 15 أسبوع</li>
+          <li>• <strong>Liturgy_Grades:</strong> درجات الطقوس الكنسية</li>
+          <li>• <strong>Coptic_Grades:</strong> درجات اللغة القبطية</li>
+          <li>• <strong>Hymns_Grades:</strong> درجات التسميع الأسبوعي</li>
+          <li>• مزامنة فورية ثنائية الاتجاه</li>
+         </ul>
+        </div>
+        <div>
+         <h4 class="font-bold text-blue-800 mb-3">💾 Google Drive Integration</h4>
+         <ul class="text-sm text-blue-700 space-y-2">
+          <li>• رفع صور الواجبات تلقائياً</li>
+          <li>• حفظ تسجيلات الألحان الصوتية</li>
+          <li>• تنظيم الملفات حسب الدارس والتاريخ</li>
+          <li>• روابط مشاركة آمنة ومباشرة</li>
+          <li>• نسخ احتياطي تلقائي للملفات</li>
+          <li>• وصول من أي جهاز ومكان</li>
+          <li>• إدارة الصلاحيات المتقدمة</li>
+         </ul>
+        </div>
+       </div>
+       <div class="mt-6 bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4">
+        <h4 class="font-bold text-yellow-800 mb-3">🎯 مميزات Apps Script Web App</h4>
+        <div class="grid md:grid-cols-2 gap-4">
+         <ul class="text-sm text-yellow-700 space-y-1">
+          <li>• <strong>بدون OAuth معقد:</strong> يعمل مباشرة بدون إعدادات معقدة</li>
+          <li>• <strong>استضافة مرنة:</strong> GitHub Pages, Vercel, Netlify</li>
+          <li>• <strong>أمان عالي:</strong> يعمل تحت حساب Google الخاص بك</li>
+          <li>• <strong>مجاني بالكامل:</strong> لا توجد تكاليف إضافية</li>
+         </ul>
+         <ul class="text-sm text-yellow-700 space-y-1">
+          <li>• <strong>مزامنة فورية:</strong> تحديث البيانات في الوقت الفعلي</li>
+          <li>• <strong>واجهة عربية:</strong> مصممة للمستخدم العربي</li>
+          <li>• <strong>متجاوب:</strong> يعمل على جميع الأجهزة</li>
+          <li>• <strong>قابل للتخصيص:</strong> يمكن تعديله حسب الحاجة</li>
+         </ul>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- System Features -->
+    <div class="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-8 card-shadow mb-8">
+     <div class="text-center mb-6">
+      <div class="text-5xl mb-4">
+       ⚡
+      </div>
+      <h3 class="text-2xl font-bold text-purple-900 mb-4">المميزات الأساسية للنظام</h3>
+     </div>
+     <div class="grid md:grid-cols-3 gap-6"><!-- Admin Features -->
+      <div class="bg-white rounded-lg p-6 border-2 border-red-200">
+       <div class="text-center mb-4">
+        <div class="text-4xl mb-2">
+         👨‍💼
+        </div>
+        <h4 class="text-xl font-bold text-red-800">لوحة الإدارة</h4>
+       </div>
+       <ul class="text-sm text-red-700 space-y-2">
+        <li>• إدارة شاملة لبيانات الدارسين</li>
+        <li>• إدارة الخدام والتخصصات</li>
+        <li>• تقارير الحضور والغياب</li>
+        <li>• إحصائيات الدرجات والتقييمات</li>
+        <li>• مزامنة البيانات مع Google Sheets</li>
+        <li>• إعدادات النظام والصلاحيات</li>
+        <li>• تصدير واستيراد البيانات</li>
+       </ul>
+      </div><!-- Teacher Features -->
+      <div class="bg-white rounded-lg p-6 border-2 border-green-200">
+       <div class="text-center mb-4">
+        <div class="text-4xl mb-2">
+         👨‍🏫
+        </div>
+        <h4 class="text-xl font-bold text-green-800">لوحة الخادم</h4>
+       </div>
+       <ul class="text-sm text-green-700 space-y-2">
+        <li>• تسجيل الحضور والغياب</li>
+        <li>• إدخال درجات الامتحانات</li>
+        <li>• تقييم الواجبات المرسلة</li>
+        <li>• متابعة تقدم الطلاب</li>
+        <li>• إرسال الملاحظات والتقييمات</li>
+        <li>• عرض جدول الحصص</li>
+        <li>• تقارير الأداء الشخصية</li>
+       </ul>
+      </div><!-- Student Features -->
+      <div class="bg-white rounded-lg p-6 border-2 border-purple-200">
+       <div class="text-center mb-4">
+        <div class="text-4xl mb-2">
+         👨‍🎓
+        </div>
+        <h4 class="text-xl font-bold text-purple-800">لوحة الدارس</h4>
+       </div>
+       <ul class="text-sm text-purple-700 space-y-2">
+        <li>• عرض الدرجات والنتائج</li>
+        <li>• متابعة سجل الحضور</li>
+        <li>• تسليم الواجبات (نص/صورة/صوت)</li>
+        <li>• رفع تسجيلات الألحان</li>
+        <li>• عرض الملف الشخصي</li>
+        <li>• تحميل الشهادات والتقارير</li>
+        <li>• التواصل مع الخدام</li>
+       </ul>
+      </div>
+     </div>
+    </div><!-- Educational Structure -->
+    <div class="bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg p-8 card-shadow mb-8">
+     <div class="flex items-start gap-4">
+      <div class="text-5xl">
+       📚
+      </div>
+      <div class="flex-1">
+       <h3 class="text-2xl font-bold text-orange-900 mb-4">الهيكل التعليمي والمناهج</h3>
+       <div class="grid md:grid-cols-2 gap-6">
+        <div>
+         <h4 class="font-bold text-orange-800 mb-3">🎓 المراحل التعليمية</h4>
+         <div class="bg-white rounded-lg p-4 border-2 border-orange-200">
+          <ul class="text-sm text-orange-700 space-y-1">
+           <li>• <strong>مرحلة الحضانة:</strong> KG1, KG2</li>
+           <li>• <strong>المرحلة الابتدائية:</strong> الصف الأول - السادس</li>
+           <li>• <strong>المرحلة الإعدادية:</strong> الصف الأول - الثالث</li>
+           <li>• <strong>المرحلة الثانوية:</strong> الصف الأول - الثالث</li>
+           <li>• <strong>مرحلة الشباب:</strong> خريجين وشباب</li>
+           <li>• <strong>أولياء الأمور:</strong> دورات خاصة</li>
+          </ul>
+         </div>
+        </div>
+        <div>
+         <h4 class="font-bold text-yellow-800 mb-3">📖 المواد الدراسية</h4>
+         <div class="bg-white rounded-lg p-4 border-2 border-yellow-200">
+          <ul class="text-sm text-yellow-700 space-y-2">
+           <li>• <strong>الطقوس الكنسية:</strong> دراسة شاملة للطقوس</li>
+           <li>• <strong>اللغة القبطية:</strong> تعلم القراءة والكتابة</li>
+           <li>• <strong>الألحان والتسبحة:</strong> تسميع أسبوعي</li>
+           <li>• <strong>المحفوظات:</strong> حفظ النصوص المقدسة</li>
+           <li>• <strong>التاريخ الكنسي:</strong> دراسة التراث</li>
+           <li>• <strong>الأنشطة العملية:</strong> تطبيق عملي</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Technical Specifications -->
+    <div class="bg-gradient-to-r from-gray-50 to-blue-50 rounded-lg p-8 card-shadow mb-8">
+     <div class="flex items-start gap-4">
+      <div class="text-5xl">
+       ⚙️
+      </div>
+      <div class="flex-1">
+       <h3 class="text-2xl font-bold text-gray-900 mb-4">المواصفات التقنية والتقنيات المستخدمة</h3>
+       <div class="grid md:grid-cols-3 gap-6">
+        <div>
+         <h4 class="font-bold text-blue-800 mb-3">🌐 Frontend Technologies</h4>
+         <div class="bg-white rounded-lg p-4 border-2 border-blue-200">
+          <ul class="text-sm text-blue-700 space-y-1">
+           <li>• <strong>HTML5:</strong> هيكل الصفحات</li>
+           <li>• <strong>Tailwind CSS:</strong> التصميم والتنسيق</li>
+           <li>• <strong>JavaScript ES6+:</strong> التفاعل والوظائف</li>
+           <li>• <strong>Responsive Design:</strong> متجاوب مع جميع الأجهزة</li>
+           <li>• <strong>PWA Ready:</strong> قابل للتحويل لتطبيق</li>
+          </ul>
+         </div>
+        </div>
+        <div>
+         <h4 class="font-bold text-green-800 mb-3">☁️ Backend &amp; APIs</h4>
+         <div class="bg-white rounded-lg p-4 border-2 border-green-200">
+          <ul class="text-sm text-green-700 space-y-1">
+           <li>• <strong>Google Apps Script:</strong> خادم البيانات</li>
+           <li>• <strong>Google Sheets API:</strong> قاعدة البيانات</li>
+           <li>• <strong>Google Drive API:</strong> تخزين الملفات</li>
+           <li>• <strong>RESTful API:</strong> واجهة برمجية</li>
+           <li>• <strong>JSON Data Format:</strong> تبادل البيانات</li>
+          </ul>
+         </div>
+        </div>
+        <div>
+         <h4 class="font-bold text-purple-800 mb-3">🔒 Security &amp; Performance</h4>
+         <div class="bg-white rounded-lg p-4 border-2 border-purple-200">
+          <ul class="text-sm text-purple-700 space-y-1">
+           <li>• <strong>Google OAuth:</strong> مصادقة آمنة</li>
+           <li>• <strong>HTTPS Only:</strong> تشفير البيانات</li>
+           <li>• <strong>Role-based Access:</strong> صلاحيات متدرجة</li>
+           <li>• <strong>Data Validation:</strong> التحقق من البيانات</li>
+           <li>• <strong>Auto Backup:</strong> نسخ احتياطي تلقائي</li>
+          </ul>
+         </div>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div><!-- Implementation Benefits -->
+    <div class="bg-gradient-to-r from-green-50 to-teal-50 rounded-lg p-8 card-shadow mb-8">
+     <div class="text-center mb-6">
+      <div class="text-5xl mb-4">
+       🎯
+      </div>
+      <h3 class="text-2xl font-bold text-green-900 mb-4">فوائد التطبيق والعائد على الاستثمار</h3>
+     </div>
+     <div class="grid md:grid-cols-2 gap-8">
+      <div>
+       <h4 class="font-bold text-green-800 mb-4">💰 الفوائد الاقتصادية</h4>
+       <div class="bg-white rounded-lg p-4 border-2 border-green-200">
+        <ul class="text-sm text-green-700 space-y-2">
+         <li>• <strong>توفير التكاليف:</strong> بدون رسوم اشتراك شهرية</li>
+         <li>• <strong>لا حاجة لخوادم:</strong> يعمل على Google Cloud مجاناً</li>
+         <li>• <strong>صيانة أقل:</strong> Google تتولى الصيانة التقنية</li>
+         <li>• <strong>قابلية التوسع:</strong> يدعم آلاف المستخدمين</li>
+         <li>• <strong>نسخ احتياطي مجاني:</strong> حماية البيانات تلقائياً</li>
+        </ul>
+       </div>
+      </div>
+      <div>
+       <h4 class="font-bold text-teal-800 mb-4">⚡ الفوائد التشغيلية</h4>
+       <div class="bg-white rounded-lg p-4 border-2 border-teal-200">
+        <ul class="text-sm text-teal-700 space-y-2">
+         <li>• <strong>توفير الوقت:</strong> أتمتة العمليات الإدارية</li>
+         <li>• <strong>دقة البيانات:</strong> تقليل الأخطاء البشرية</li>
+         <li>• <strong>سهولة الوصول:</strong> من أي مكان وأي جهاز</li>
+         <li>• <strong>تقارير فورية:</strong> إحصائيات لحظية</li>
+         <li>• <strong>تحسين التواصل:</strong> بين الإدارة والخدام والدارسين</li>
+        </ul>
+       </div>
+      </div>
+     </div>
     </div><!-- Vision and Mission -->
     <div class="space-y-8"><!-- Goal -->
      <div class="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-8 card-shadow">
@@ -411,21 +656,21 @@
    <section id="setup" class="section-content hidden">
     <div class="max-w-4xl mx-auto">
      <div class="text-center mb-12">
-      <h2 class="text-4xl font-bold text-gray-800 mb-4">🚀 إعداد Apps Script Web App</h2>
-      <p class="text-xl text-gray-600">اتبع الخطوات التالية لربط النظام مع Google Apps Script</p>
+      <h2 class="text-4xl font-bold text-gray-800 mb-4">🔗 ربط النظام مع Google</h2>
+      <p class="text-xl text-gray-600">طريقة محسنة للربط المباشر مع Google Sheets و Google Drive</p>
      </div><!-- Connection Status Card -->
      <div class="setup-card mb-8">
       <div class="flex items-center justify-between mb-6">
        <h3 class="text-2xl font-bold text-gray-800">حالة الاتصال</h3>
-       <div class="flex gap-3"><button onclick="testAppsScriptConnection()" class="btn-primary"> 🔄 اختبار الاتصال </button>
+       <div class="flex gap-3"><button onclick="signInToGoogle()" id="googleSignInBtn" class="btn-primary"> 🔐 تسجيل دخول Google </button> <button onclick="testConnection()" class="btn-secondary"> 🔄 اختبار الاتصال </button>
        </div>
       </div>
       <div class="grid md:grid-cols-2 gap-6">
        <div class="text-center p-4 rounded-lg border-2" id="appsScriptStatus">
         <div class="text-3xl mb-2">
-         🚀
+         📊
         </div>
-        <h4 class="font-bold mb-2">Apps Script Web App</h4>
+        <h4 class="font-bold mb-2">Google Sheets</h4>
         <div class="connection-status status-disconnected">
          غير متصل
         </div>
@@ -441,15 +686,37 @@
        </div>
       </div>
      </div><!-- Setup Steps -->
-     <div class="space-y-8"><!-- Step 1: Create Google Sheets -->
+     <div class="space-y-8"><!-- Step 1: Sign in to Google -->
       <div class="setup-card">
        <div class="flex items-start gap-4">
         <div class="step-number">
          1
         </div>
         <div class="flex-1">
+         <h3 class="text-xl font-bold text-gray-800 mb-4">تسجيل الدخول إلى Google</h3>
+         <p class="text-gray-600 mb-4">سجل الدخول إلى حساب Google الخاص بك للوصول إلى Sheets و Drive:</p>
+         <div class="bg-green-50 border-2 border-green-300 rounded-lg p-4 mb-4">
+          <h4 class="font-bold text-green-800 mb-2">✅ مميزات الطريقة الجديدة:</h4>
+          <ul class="text-sm text-green-700 space-y-1">
+           <li>• ربط مباشر مع Google API - بدون Apps Script معقد</li>
+           <li>• أمان عالي مع OAuth 2.0</li>
+           <li>• سرعة في الاستجابة</li>
+           <li>• لا حاجة لإعداد Web App منفصل</li>
+          </ul>
+         </div>
+         <div class="flex gap-3"><button onclick="signInToGoogle()" id="signInBtn" class="btn-primary"> 🔐 تسجيل دخول Google </button>
+         </div>
+        </div>
+       </div>
+      </div><!-- Step 2: Create Google Sheets -->
+      <div class="setup-card">
+       <div class="flex items-start gap-4">
+        <div class="step-number">
+         2
+        </div>
+        <div class="flex-1">
          <h3 class="text-xl font-bold text-gray-800 mb-4">إنشاء Google Sheets</h3>
-         <p class="text-gray-600 mb-4">قم بإنشاء جدول Google Sheets جديد باسم "AlHabibCenterData" يحتوي على الأوراق التالية:</p>
+         <p class="text-gray-600 mb-4">قم بإنشاء جدول Google Sheets جديد باسم "AlHabibCenterData":</p>
          <div class="grid md:grid-cols-2 gap-4 mb-4">
           <div class="bg-blue-50 p-4 rounded-lg">
            <h4 class="font-bold text-blue-800 mb-2">الأوراق الأساسية:</h4>
@@ -468,80 +735,48 @@
            </ul>
           </div>
          </div>
-         <div class="flex gap-3"><button onclick="createSampleSheet()" class="btn-secondary"> 📊 إنشاء جدول نموذجي </button> <button onclick="downloadAppsScriptCode()" class="btn-primary"> 📥 تحميل كود Apps Script </button>
+         <div class="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4 mb-4">
+          <p class="text-sm text-yellow-700"><strong>معرف الجدول الحالي:</strong> 1Jv0uRSQlWCHCv0XOE-nUQ2UKGKWrz4Abytv-XTIoobU</p>
+         </div>
+         <div class="flex gap-3"><button onclick="createSampleSheet()" class="btn-secondary"> 📊 إنشاء جدول نموذجي </button> <button onclick="openExistingSheet()" class="btn-primary"> 📋 فتح الجدول الموجود </button>
          </div>
         </div>
        </div>
-      </div><!-- Step 2: Create Google Drive Folder -->
-      <div class="setup-card">
-       <div class="flex items-start gap-4">
-        <div class="step-number">
-         2
-        </div>
-        <div class="flex-1">
-         <h3 class="text-xl font-bold text-gray-800 mb-4">إنشاء مجلد Google Drive</h3>
-         <p class="text-gray-600 mb-4">أنشئ مجلد في Google Drive باسم "AlHabibCenterFiles" لتخزين الملفات:</p>
-         <div class="bg-gray-100 p-4 rounded-lg mb-4 font-mono text-sm">
-          https://drive.google.com/drive/folders/<span class="bg-yellow-200 px-2 py-1 rounded">FOLDER_ID_HERE</span>
-         </div>
-         <div><label class="block text-sm font-bold text-gray-700 mb-2">معرف مجلد Google Drive:</label> <input type="text" id="driveIdInput" class="w-full p-3 border-2 border-gray-300 rounded-lg" placeholder="أدخل معرف المجلد هنا">
-         </div>
-        </div>
-       </div>
-      </div><!-- Step 3: Create Apps Script Project -->
+      </div><!-- Step 3: Create Google Drive Folder -->
       <div class="setup-card">
        <div class="flex items-start gap-4">
         <div class="step-number">
          3
         </div>
         <div class="flex-1">
-         <h3 class="text-xl font-bold text-gray-800 mb-4">إنشاء مشروع Apps Script</h3>
-         <p class="text-gray-600 mb-4">من Google Sheets، اختر Extensions → Apps Script:</p>
-         <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 mb-4">
-          <h4 class="font-bold text-blue-800 mb-2">📝 خطوات الإنشاء:</h4>
-          <ol class="text-sm text-blue-700 space-y-1 list-decimal list-inside">
-           <li>افتح Google Sheets الذي أنشأته</li>
-           <li>اختر Extensions → Apps Script</li>
-           <li>أنشئ مشروع جديد باسم "AlHabibCenterWebApp"</li>
-           <li>احذف الكود الافتراضي والصق الكود المحمل</li>
-           <li>أدخل معرف مجلد Google Drive في المتغير FOLDER_ID</li>
-          </ol>
+         <h3 class="text-xl font-bold text-gray-800 mb-4">إنشاء مجلد Google Drive</h3>
+         <p class="text-gray-600 mb-4">أنشئ مجلد في Google Drive باسم "AlHabibCenterFiles" لتخزين الملفات:</p>
+         <div class="bg-yellow-50 border-2 border-yellow-300 rounded-lg p-4 mb-4">
+          <p class="text-sm text-yellow-700"><strong>معرف المجلد الحالي:</strong> 1eZWjYfawM0yN4rqAb1couH1EtOEX-ytA</p>
          </div>
-         <div class="flex gap-3"><a href="https://script.google.com/" target="_blank" class="btn-primary"> 🔗 فتح Apps Script </a> <button onclick="showAppsScriptInstructions()" class="btn-secondary"> 📖 عرض التعليمات التفصيلية </button>
+         <div class="flex gap-3"><button onclick="createDriveFolder()" class="btn-secondary"> 📁 إنشاء مجلد جديد </button> <button onclick="openExistingFolder()" class="btn-primary"> 📂 فتح المجلد الموجود </button>
          </div>
         </div>
        </div>
-      </div><!-- Step 4: Deploy Web App -->
+      </div><!-- Step 4: Test Connection -->
       <div class="setup-card">
        <div class="flex items-start gap-4">
         <div class="step-number">
          4
         </div>
         <div class="flex-1">
-         <h3 class="text-xl font-bold text-gray-800 mb-4">نشر Web App</h3>
-         <p class="text-gray-600 mb-4">انشر المشروع كـ Web App للحصول على رابط API:</p>
-         <div class="bg-green-50 border-2 border-green-300 rounded-lg p-4 mb-4">
-          <h4 class="font-bold text-green-800 mb-2">⚙️ إعدادات النشر:</h4>
-          <ul class="text-sm text-green-700 space-y-1">
-           <li>• <strong>Execute as:</strong> Me (مالك الملف)</li>
-           <li>• <strong>Who has access:</strong> Anyone</li>
-           <li>• <strong>Description:</strong> AlHabib Center API</li>
+         <h3 class="text-xl font-bold text-gray-800 mb-4">اختبار الاتصال</h3>
+         <p class="text-gray-600 mb-4">تأكد من أن النظام يمكنه الوصول إلى Google Sheets و Drive:</p>
+         <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 mb-4">
+          <h4 class="font-bold text-blue-800 mb-2">🔍 سيتم اختبار:</h4>
+          <ul class="text-sm text-blue-700 space-y-1">
+           <li>• الوصول إلى Google Sheets</li>
+           <li>• قراءة وكتابة البيانات</li>
+           <li>• الوصول إلى Google Drive</li>
+           <li>• رفع الملفات</li>
           </ul>
          </div>
-         <div><label class="block text-sm font-bold text-gray-700 mb-2">رابط Web App:</label> <input type="text" id="webAppUrlInput" class="w-full p-3 border-2 border-gray-300 rounded-lg" placeholder="أدخل رابط Web App هنا">
-         </div>
-        </div>
-       </div>
-      </div><!-- Step 5: Save Configuration -->
-      <div class="setup-card">
-       <div class="flex items-start gap-4">
-        <div class="step-number">
-         5
-        </div>
-        <div class="flex-1">
-         <h3 class="text-xl font-bold text-gray-800 mb-4">حفظ الإعدادات</h3>
-         <p class="text-gray-600 mb-4">احفظ الإعدادات واختبر الاتصال:</p>
-         <div class="flex gap-3"><button onclick="saveAppsScriptConfiguration()" class="btn-success"> 💾 حفظ الإعدادات </button> <button onclick="testAppsScriptConnection()" class="btn-primary"> 🔄 اختبار الاتصال </button>
+         <div class="flex gap-3"><button onclick="testConnection()" class="btn-primary"> 🔄 اختبار الاتصال </button> <button onclick="testSheetsAccess()" class="btn-secondary"> 📊 اختبار Sheets </button> <button onclick="testDriveAccess()" class="btn-secondary"> 💾 اختبار Drive </button>
          </div>
         </div>
        </div>
@@ -696,13 +931,27 @@
             drive_folder_id: ""
         };
 
-        // Apps Script Web App Configuration
-        let appsScriptConfig = {
-            webAppUrl: '', // سيتم إدخاله من المستخدم
-            sheetsId: '',
-            driveFolderId: '',
+        // Google API Configuration - طريقة محسنة
+        const GOOGLE_CONFIG = {
+            apiKey: 'AIzaSyBvowS_Wr9uJ2X8VQHJKqF4rH3nE2mF8Qc', // مفتاح API عام للقراءة
+            clientId: '1086259748871-frhd1uctj0cbr5907apm6deuaoecq3v2.apps.googleusercontent.com',
+            discoveryDocs: [
+                'https://sheets.googleapis.com/$discovery/rest?version=v4',
+                'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'
+            ],
+            scopes: [
+                'https://www.googleapis.com/auth/spreadsheets',
+                'https://www.googleapis.com/auth/drive.file'
+            ]
+        };
+
+        // System Configuration
+        let systemConfig = {
+            sheetsId: '1Jv0uRSQlWCHCv0XOE-nUQ2UKGKWrz4Abytv-XTIoobU', // معرف الجدول
+            driveFolderId: '1eZWjYfawM0yN4rqAb1couH1EtOEX-ytA', // معرف المجلد
             isConnected: false,
-            isAuthenticated: false // سيكون true دائماً مع Apps Script
+            isAuthenticated: false,
+            connectionMethod: 'google_api' // 'google_api' أو 'apps_script'
         };
 
         // Current user and state
@@ -753,18 +1002,12 @@
                             document.getElementById('centerName').textContent = config.center_name || defaultConfig.center_name;
                             document.getElementById('churchName').textContent = config.church_name || defaultConfig.church_name;
                             
-                            // Update Apps Script configuration
-                            if (config.web_app_url) {
-                                appsScriptConfig.webAppUrl = config.web_app_url;
-                                if (document.getElementById('webAppUrlInput')) {
-                                    document.getElementById('webAppUrlInput').value = config.web_app_url;
-                                }
+                            // Update system configuration
+                            if (config.sheets_id) {
+                                systemConfig.sheetsId = config.sheets_id;
                             }
                             if (config.drive_folder_id) {
-                                appsScriptConfig.driveFolderId = config.drive_folder_id;
-                                if (document.getElementById('driveIdInput')) {
-                                    document.getElementById('driveIdInput').value = config.drive_folder_id;
-                                }
+                                systemConfig.driveFolderId = config.drive_folder_id;
                             }
                         },
                         mapToCapabilities: (config) => ({
@@ -777,19 +1020,16 @@
                             ["system_title", config.system_title || defaultConfig.system_title],
                             ["center_name", config.center_name || defaultConfig.center_name],
                             ["church_name", config.church_name || defaultConfig.church_name],
-                            ["web_app_url", config.web_app_url || ""],
+                            ["sheets_id", config.sheets_id || ""],
                             ["drive_folder_id", config.drive_folder_id || ""]
                         ])
                     });
                 }
 
-                // Load saved configuration
-                loadAppsScriptConfiguration();
+                // Initialize Google API
+                await initializeGoogleAPI();
                 
-                // Initialize Apps Script API
-                await initializeAppsScriptAPI();
-                
-                console.log('✅ تم تهيئة النظام بنجاح مع Apps Script Web App');
+                console.log('✅ تم تهيئة النظام بنجاح مع Google API');
                 
             } catch (error) {
                 console.error('❌ خطأ في تهيئة النظام:', error);
@@ -797,42 +1037,73 @@
             }
         }
 
-        // Initialize Apps Script API
-        async function initializeAppsScriptAPI() {
+        // Initialize Google API
+        async function initializeGoogleAPI() {
             try {
                 // Show loading status
                 const statusEl = document.getElementById('connectionStatus');
                 if (statusEl) {
                     statusEl.className = 'connection-status status-connecting';
-                    statusEl.textContent = '🟡 جاري التهيئة...';
+                    statusEl.textContent = '🟡 جاري تهيئة Google API...';
                 }
 
-                // Apps Script doesn't need complex initialization
-                // Just check if we have a Web App URL
-                if (appsScriptConfig.webAppUrl) {
-                    appsScriptConfig.isAuthenticated = true;
-                    console.log('✅ تم تهيئة Apps Script API بنجاح');
-                    console.log('🔗 رابط Web App:', appsScriptConfig.webAppUrl);
-                    
-                    updateConnectionStatus();
-                    showToast('Apps Script Web App جاهز للاستخدام', 'success');
-                } else {
-                    console.log('⚠️ لم يتم تحديد رابط Web App بعد');
-                    updateConnectionStatus(false);
-                }
+                // Wait for Google API to load
+                await new Promise((resolve, reject) => {
+                    if (typeof gapi !== 'undefined') {
+                        resolve();
+                    } else {
+                        const checkGapi = setInterval(() => {
+                            if (typeof gapi !== 'undefined') {
+                                clearInterval(checkGapi);
+                                resolve();
+                            }
+                        }, 100);
+                        
+                        setTimeout(() => {
+                            clearInterval(checkGapi);
+                            reject(new Error('Google API لم يتم تحميله'));
+                        }, 10000);
+                    }
+                });
+
+                // Initialize Google API
+                await gapi.load('client:auth2', async () => {
+                    try {
+                        await gapi.client.init({
+                            apiKey: GOOGLE_CONFIG.apiKey,
+                            clientId: GOOGLE_CONFIG.clientId,
+                            discoveryDocs: GOOGLE_CONFIG.discoveryDocs,
+                            scope: GOOGLE_CONFIG.scopes.join(' ')
+                        });
+
+                        // Listen for sign-in state changes
+                        const authInstance = gapi.auth2.getAuthInstance();
+                        authInstance.isSignedIn.listen(updateSigninStatus);
+                        
+                        // Handle initial sign-in state
+                        updateSigninStatus(authInstance.isSignedIn.get());
+                        
+                        console.log('✅ تم تهيئة Google API بنجاح');
+                        showToast('Google API جاهز للاستخدام', 'success');
+                        
+                    } catch (error) {
+                        console.error('❌ خطأ في تهيئة Google API:', error);
+                        updateConnectionStatus(false);
+                        showToast('فشل في تهيئة Google API: ' + error.message, 'error');
+                    }
+                });
                 
             } catch (error) {
-                console.error('❌ خطأ في تهيئة Apps Script API:', error);
+                console.error('❌ خطأ في تحميل Google API:', error);
                 updateConnectionStatus(false);
-                showToast('فشل في تهيئة Apps Script API: ' + error.message, 'error');
+                showToast('فشل في تحميل Google API: ' + error.message, 'error');
             }
         }
 
         // Update signin status
         function updateSigninStatus(isSignedIn) {
-            googleConfig.isAuthenticated = isSignedIn;
+            systemConfig.isAuthenticated = isSignedIn;
             updateConnectionStatus();
-            updateAuthButtonText();
             
             if (isSignedIn) {
                 const user = gapi.auth2.getAuthInstance().currentUser.get();
@@ -936,41 +1207,38 @@
         // Update Connection Status
         function updateConnectionStatus(connected = null) {
             const statusEl = document.getElementById('connectionStatus');
-            const sheetsStatusEl = document.getElementById('sheetsStatus');
+            const appsScriptStatusEl = document.getElementById('appsScriptStatus');
             const driveStatusEl = document.getElementById('driveStatus');
             
             if (connected === null) {
-                connected = googleConfig.isAuthenticated && googleConfig.sheetsId && googleConfig.driveFolderId;
+                connected = systemConfig.isAuthenticated && systemConfig.sheetsId && systemConfig.driveFolderId;
             }
             
-            googleConfig.isConnected = connected;
+            systemConfig.isConnected = connected;
             
-            const authStatus = googleConfig.isAuthenticated ? 'مصادق' : 'غير مصادق';
-            const connectionStatus = connected ? 'متصل' : 'غير متصل';
-            
-            if (connected && googleConfig.isAuthenticated) {
+            if (connected && systemConfig.isAuthenticated) {
                 statusEl.className = 'connection-status status-connected';
                 statusEl.textContent = '🟢 متصل ومصادق';
                 
-                if (sheetsStatusEl) {
-                    sheetsStatusEl.querySelector('.connection-status').className = 'connection-status status-connected';
-                    sheetsStatusEl.querySelector('.connection-status').textContent = 'متصل';
+                if (appsScriptStatusEl) {
+                    appsScriptStatusEl.querySelector('.connection-status').className = 'connection-status status-connected';
+                    appsScriptStatusEl.querySelector('.connection-status').textContent = 'متصل';
                 }
                 
                 if (driveStatusEl) {
                     driveStatusEl.querySelector('.connection-status').className = 'connection-status status-connected';
                     driveStatusEl.querySelector('.connection-status').textContent = 'متصل';
                 }
-            } else if (googleConfig.isAuthenticated) {
+            } else if (systemConfig.isAuthenticated) {
                 statusEl.className = 'connection-status status-connecting';
-                statusEl.textContent = '🟡 مصادق - يحتاج إعداد';
+                statusEl.textContent = '🟡 مصادق - جاهز للاستخدام';
             } else {
                 statusEl.className = 'connection-status status-disconnected';
                 statusEl.textContent = '🔴 غير متصل';
                 
-                if (sheetsStatusEl) {
-                    sheetsStatusEl.querySelector('.connection-status').className = 'connection-status status-disconnected';
-                    sheetsStatusEl.querySelector('.connection-status').textContent = 'غير متصل';
+                if (appsScriptStatusEl) {
+                    appsScriptStatusEl.querySelector('.connection-status').className = 'connection-status status-disconnected';
+                    appsScriptStatusEl.querySelector('.connection-status').textContent = 'غير متصل';
                 }
                 
                 if (driveStatusEl) {
@@ -980,88 +1248,82 @@
             }
         }
 
-        // Apps Script Web App Operations
-        async function readFromAppsScript(sheetName, range = '') {
+        // Google Sheets API Operations
+        async function readFromSheet(sheetName, range = '') {
             try {
-                if (!appsScriptConfig.webAppUrl) {
-                    throw new Error('رابط Apps Script Web App غير محدد');
+                if (!systemConfig.isAuthenticated) {
+                    throw new Error('يجب تسجيل الدخول إلى Google أولاً');
                 }
 
-                const url = `${appsScriptConfig.webAppUrl}?action=read&sheet=${sheetName}&range=${range}`;
+                if (!systemConfig.sheetsId) {
+                    throw new Error('معرف Google Sheets غير محدد');
+                }
+
+                const fullRange = range ? `${sheetName}!${range}` : sheetName;
                 
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                const response = await gapi.client.sheets.spreadsheets.values.get({
+                    spreadsheetId: systemConfig.sheetsId,
+                    range: fullRange
                 });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.json();
-                return data.values || [];
+                return response.result.values || [];
             } catch (error) {
                 console.error(`خطأ في قراءة البيانات من ${sheetName}:`, error);
                 throw error;
             }
         }
 
-        async function writeToAppsScript(sheetName, values, action = 'append') {
+        async function writeToSheet(sheetName, values, range = '') {
             try {
-                if (!appsScriptConfig.webAppUrl) {
-                    throw new Error('رابط Apps Script Web App غير محدد');
+                if (!systemConfig.isAuthenticated) {
+                    throw new Error('يجب تسجيل الدخول إلى Google أولاً');
                 }
 
-                const response = await fetch(appsScriptConfig.webAppUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        action: action,
-                        sheet: sheetName,
+                if (!systemConfig.sheetsId) {
+                    throw new Error('معرف Google Sheets غير محدد');
+                }
+
+                const fullRange = range ? `${sheetName}!${range}` : `${sheetName}!A1`;
+                
+                const response = await gapi.client.sheets.spreadsheets.values.update({
+                    spreadsheetId: systemConfig.sheetsId,
+                    range: fullRange,
+                    valueInputOption: 'RAW',
+                    resource: {
                         values: values
-                    })
+                    }
                 });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const result = await response.json();
-                return result;
+                return response.result;
             } catch (error) {
                 console.error(`خطأ في كتابة البيانات إلى ${sheetName}:`, error);
                 throw error;
             }
         }
 
-        async function uploadToAppsScript(file, fileName) {
+        async function appendToSheet(sheetName, values) {
             try {
-                if (!appsScriptConfig.webAppUrl) {
-                    throw new Error('رابط Apps Script Web App غير محدد');
+                if (!systemConfig.isAuthenticated) {
+                    throw new Error('يجب تسجيل الدخول إلى Google أولاً');
                 }
 
-                const formData = new FormData();
-                formData.append('file', file);
-                formData.append('fileName', fileName);
-                formData.append('action', 'upload');
+                if (!systemConfig.sheetsId) {
+                    throw new Error('معرف Google Sheets غير محدد');
+                }
 
-                const response = await fetch(appsScriptConfig.webAppUrl, {
-                    method: 'POST',
-                    body: formData
+                const response = await gapi.client.sheets.spreadsheets.values.append({
+                    spreadsheetId: systemConfig.sheetsId,
+                    range: `${sheetName}!A1`,
+                    valueInputOption: 'RAW',
+                    insertDataOption: 'INSERT_ROWS',
+                    resource: {
+                        values: values
+                    }
                 });
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const result = await response.json();
-                return result;
+                return response.result;
             } catch (error) {
-                console.error('خطأ في رفع الملف إلى Google Drive:', error);
+                console.error(`خطأ في إضافة البيانات إلى ${sheetName}:`, error);
                 throw error;
             }
         }
@@ -1215,9 +1477,9 @@
             }
         }
 
-        async function loadStudentsFromAppsScript() {
+        async function loadStudentsFromSheets() {
             try {
-                const sheetData = await readFromAppsScript(SHEET_NAMES.STUDENTS);
+                const sheetData = await readFromSheet(SHEET_NAMES.STUDENTS);
                 return sheetToStudentsArray(sheetData);
             } catch (error) {
                 console.error('خطأ في تحميل بيانات الدارسين:', error);
@@ -1225,10 +1487,10 @@
             }
         }
 
-        async function saveStudentsToAppsScript(students) {
+        async function saveStudentsToSheets(students) {
             try {
                 const sheetData = studentsArrayToSheet(students);
-                await writeToAppsScript(SHEET_NAMES.STUDENTS, sheetData, 'update');
+                await writeToSheet(SHEET_NAMES.STUDENTS, sheetData);
                 return true;
             } catch (error) {
                 console.error('خطأ في حفظ بيانات الدارسين:', error);
@@ -1236,9 +1498,9 @@
             }
         }
 
-        async function loadTeachersFromAppsScript() {
+        async function loadTeachersFromSheets() {
             try {
-                const sheetData = await readFromAppsScript(SHEET_NAMES.TEACHERS);
+                const sheetData = await readFromSheet(SHEET_NAMES.TEACHERS);
                 return sheetToTeachersArray(sheetData);
             } catch (error) {
                 console.error('خطأ في تحميل بيانات الخدام:', error);
@@ -1246,10 +1508,10 @@
             }
         }
 
-        async function saveTeachersToAppsScript(teachers) {
+        async function saveTeachersToSheets(teachers) {
             try {
                 const sheetData = teachersArrayToSheet(teachers);
-                await writeToAppsScript(SHEET_NAMES.TEACHERS, sheetData, 'update');
+                await writeToSheet(SHEET_NAMES.TEACHERS, sheetData);
                 return true;
             } catch (error) {
                 console.error('خطأ في حفظ بيانات الخدام:', error);
@@ -1576,10 +1838,10 @@
         function downloadAppsScriptCode() {
             const appsScriptCode = `// Apps Script Code for AlHabib Center Management System
 // نسخ هذا الكود في مشروع Apps Script الخاص بك
-// تأكد من إدخال معرف مجلد Google Drive في المتغير FOLDER_ID أدناه
 
-// إعداد معرف مجلد Google Drive - أدخل المعرف هنا
-const FOLDER_ID = "${appsScriptConfig.driveFolderId || 'أدخل_معرف_المجلد_هنا'}";
+// إعداد معرفات Google - تم إدخالها تلقائياً
+const SHEETS_ID = "1Jv0uRSQlWCHCv0XOE-nUQ2UKGKWrz4Abytv-XTIoobU";
+const FOLDER_ID = "1eZWjYfawM0yN4rqAb1couH1EtOEX-ytA";
 
 // أسماء الأوراق في Google Sheets
 const SHEET_NAMES = {
@@ -2123,7 +2385,7 @@ function testScript() {
                 }
                 
                 // Step 2: Check authentication
-                if (!googleConfig.isAuthenticated || !authInstance.isSignedIn.get()) {
+                if (!systemConfig.isAuthenticated || !authInstance.isSignedIn.get()) {
                     updateConnectionStatus(false);
                     showToast('⚠️ يرجى تسجيل الدخول إلى Google أولاً', 'error');
                     
@@ -2136,7 +2398,7 @@ function testScript() {
                                 لاختبار الاتصال مع Google Sheets، يجب تسجيل الدخول إلى حساب Google الخاص بك أولاً.
                             </p>
                             <div class="flex justify-center gap-3">
-                                <button onclick="closeModal(); toggleGoogleAuth();" class="btn-primary">
+                                <button onclick="closeModal(); signInToGoogle();" class="btn-primary">
                                     🔐 تسجيل دخول Google
                                 </button>
                                 <button onclick="closeModal()" class="btn-secondary">
@@ -2148,32 +2410,7 @@ function testScript() {
                     return;
                 }
                 
-                // Step 3: Check Sheets ID
-                if (!googleConfig.sheetsId) {
-                    updateConnectionStatus(false);
-                    showToast('⚠️ معرف Google Sheets غير محدد', 'error');
-                    
-                    const modal = createModal('📊 معرف Google Sheets مطلوب', `
-                        <div class="text-center space-y-4">
-                            <div class="text-6xl mb-4">📊</div>
-                            <h3 class="text-xl font-bold text-gray-800 mb-4">معرف Google Sheets غير محدد</h3>
-                            <p class="text-gray-600 mb-6">
-                                يرجى إدخال معرف Google Sheets في صفحة الإعداد أولاً.
-                            </p>
-                            <div class="flex justify-center gap-3">
-                                <button onclick="closeModal(); showSection('setup');" class="btn-primary">
-                                    ⚙️ إعداد الربط
-                                </button>
-                                <button onclick="closeModal()" class="btn-secondary">
-                                    إلغاء
-                                </button>
-                            </div>
-                        </div>
-                    `);
-                    return;
-                }
-                
-                // Step 4: Test actual connection
+                // Step 3: Test Sheets access
                 statusEl.textContent = '🟡 اختبار الوصول للجدول...';
                 
                 try {
@@ -2199,12 +2436,59 @@ function testScript() {
                 console.log('✅ اختبار الاتصال نجح:');
                 console.log('👤 المستخدم:', profile.getName());
                 console.log('📧 البريد:', profile.getEmail());
-                console.log('📊 معرف الجدول:', googleConfig.sheetsId);
+                console.log('📊 معرف الجدول:', systemConfig.sheetsId);
                 
             } catch (error) {
                 console.error('❌ فشل اختبار الاتصال:', error);
                 updateConnectionStatus(false);
                 showToast('❌ فشل في الاتصال: ' + error.message, 'error');
+            }
+        }
+
+        // Test Sheets Access
+        async function testSheetsAccess() {
+            try {
+                if (!systemConfig.isAuthenticated) {
+                    showToast('يرجى تسجيل الدخول إلى Google أولاً', 'error');
+                    return;
+                }
+
+                showToast('جاري اختبار الوصول إلى Google Sheets...', 'info');
+                
+                // Test reading from Students sheet
+                const studentsData = await readFromSheet(SHEET_NAMES.STUDENTS, 'A1:O10');
+                console.log('✅ تم قراءة بيانات الدارسين:', studentsData.length, 'صف');
+                
+                showToast(`✅ تم الوصول بنجاح إلى Google Sheets (${studentsData.length} صف)`, 'success');
+                
+            } catch (error) {
+                console.error('❌ فشل اختبار Sheets:', error);
+                showToast('❌ فشل في الوصول إلى Google Sheets: ' + error.message, 'error');
+            }
+        }
+
+        // Test Drive Access
+        async function testDriveAccess() {
+            try {
+                if (!systemConfig.isAuthenticated) {
+                    showToast('يرجى تسجيل الدخول إلى Google أولاً', 'error');
+                    return;
+                }
+
+                showToast('جاري اختبار الوصول إلى Google Drive...', 'info');
+                
+                // Test creating a small test file
+                const testContent = 'Test file from AlHabib Center - ' + new Date().toISOString();
+                const testBlob = new Blob([testContent], { type: 'text/plain' });
+                
+                const result = await uploadToGoogleDrive(testBlob, 'test_connection.txt', systemConfig.driveFolderId);
+                console.log('✅ تم رفع ملف اختبار:', result.id);
+                
+                showToast('✅ تم الوصول بنجاح إلى Google Drive', 'success');
+                
+            } catch (error) {
+                console.error('❌ فشل اختبار Drive:', error);
+                showToast('❌ فشل في الوصول إلى Google Drive: ' + error.message, 'error');
             }
         }
 
@@ -3275,6 +3559,60 @@ ST001,مثال للدارس,ذكر,2010-01-01,الصف الأول الأبتدا
             }, 3000);
         }
 
+        // Test URL directly in browser
+        function testUrlDirectly() {
+            if (appsScriptConfig.webAppUrl) {
+                const testUrl = appsScriptConfig.webAppUrl + '?action=test';
+                window.open(testUrl, '_blank');
+                showToast('تم فتح رابط الاختبار في نافذة جديدة. إذا ظهرت بيانات JSON، فالرابط يعمل بشكل صحيح.', 'info');
+            } else {
+                showToast('يرجى إدخال رابط Web App أولاً', 'error');
+            }
+        }
+
+        // Helper Functions
+        function openExistingSheet() {
+            const url = `https://docs.google.com/spreadsheets/d/${systemConfig.sheetsId}/edit`;
+            window.open(url, '_blank');
+            showToast('تم فتح Google Sheets في نافذة جديدة', 'info');
+        }
+
+        function openExistingFolder() {
+            const url = `https://drive.google.com/drive/folders/${systemConfig.driveFolderId}`;
+            window.open(url, '_blank');
+            showToast('تم فتح Google Drive في نافذة جديدة', 'info');
+        }
+
+        async function createDriveFolder() {
+            try {
+                if (!systemConfig.isAuthenticated) {
+                    showToast('يرجى تسجيل الدخول إلى Google أولاً', 'error');
+                    return;
+                }
+
+                showToast('جاري إنشاء مجلد جديد...', 'info');
+                
+                const metadata = {
+                    name: 'AlHabibCenterFiles',
+                    mimeType: 'application/vnd.google-apps.folder'
+                };
+
+                const response = await gapi.client.drive.files.create({
+                    resource: metadata
+                });
+
+                const folderId = response.result.id;
+                systemConfig.driveFolderId = folderId;
+                
+                showToast('✅ تم إنشاء المجلد بنجاح', 'success');
+                console.log('📁 معرف المجلد الجديد:', folderId);
+                
+            } catch (error) {
+                console.error('❌ فشل في إنشاء المجلد:', error);
+                showToast('❌ فشل في إنشاء المجلد: ' + error.message, 'error');
+            }
+        }
+
         // Placeholder functions for future implementation
         function showAddStudentForm() {
             showToast('سيتم إضافة هذه الميزة قريباً مع Google Sheets', 'info');
@@ -3323,5 +3661,5 @@ ST001,مثال للدارس,ذكر,2010-01-01,الصف الأول الأبتدا
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', initializeSystem);
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99f8744c03432a48',t:'MTc2MzMxMTQ3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99f96ea1956b1221',t:'MTc2MzMyMTczMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
